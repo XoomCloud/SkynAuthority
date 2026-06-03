@@ -49,19 +49,19 @@ function recommend(tags: string[]): Product[] {
   // simple, friendly mapping — always gentle, always sensible
   const picks = new Set<string>()
   if (tags.includes('start') || tags.includes('three') || tags.includes('quick')) {
-    picks.add('the-easy-three-set')
+    picks.add('the-glow-routine')
   }
-  if (tags.includes('spots')) picks.add('clear-skies-spot-gel')
+  if (tags.includes('spots') || tags.includes('oily')) picks.add('gentle-cream-cleanser')
   if (tags.includes('dry') || tags.includes('hydrate') || tags.includes('sensitive'))
-    picks.add('dewdrop-hydrating-toner')
-  if (tags.includes('glow') || tags.includes('combo') || tags.includes('oily'))
-    picks.add('quiet-glow-moisturiser')
+    picks.add('daily-balance-moisturiser')
+  if (tags.includes('glow') || tags.includes('combo')) picks.add('glow-mist')
   if (tags.includes('all')) {
-    picks.add('morning-melt-gel-cleanser')
-    picks.add('soft-shield-spf30')
+    picks.add('gentle-cream-cleanser')
+    picks.add('daily-balance-moisturiser')
+    picks.add('glow-mist')
   }
   // ensure at least 3 sensible items
-  const base = ['the-easy-three-set', 'quiet-glow-moisturiser', 'soft-shield-spf30']
+  const base = ['the-glow-routine', 'daily-balance-moisturiser', 'glow-mist']
   base.forEach((b) => picks.size < 3 && picks.add(b))
   return [...picks]
     .map((slug) => products.find((p) => p.slug === slug)!)
@@ -211,10 +211,14 @@ export function Routine() {
                     className="flex items-center gap-4 rounded-3xl bg-white/55 p-4 transition hover:-translate-y-1 neu-subtle"
                   >
                     <div
-                      className="grid h-20 w-20 shrink-0 place-items-center rounded-2xl"
+                      className="grid h-20 w-20 shrink-0 place-items-center overflow-hidden rounded-2xl"
                       style={{ background: hueGradient[p.hue] }}
                     >
-                      <div className="droplet h-10 w-7 bg-white/50" />
+                      <img
+                        src={p.image}
+                        alt={p.name}
+                        className="h-[88%] w-auto object-contain drop-shadow-[0_6px_8px_rgba(110,124,96,0.28)]"
+                      />
                     </div>
                     <div className="flex-1">
                       <p className="eyebrow mb-0.5">{p.category}</p>

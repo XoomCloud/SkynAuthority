@@ -2,7 +2,7 @@ import { useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import type { Product } from '../data/products'
-import { hueGradient } from '../data/products'
+import { hueGradient, hueGlow } from '../data/products'
 import { useCart } from '../store/cart'
 import { StarIcon, PlusIcon } from './icons'
 
@@ -49,20 +49,20 @@ export function ProductCard({ product, index = 0 }: { product: Product; index?: 
           style={{ background: hueGradient[product.hue] }}
         >
           {/* soft light bloom */}
-          <div className="absolute -right-8 -top-8 h-32 w-32 rounded-full bg-white/40 blur-2xl" />
-          {/* skeuomorphic bottle silhouette */}
-          <motion.div
-            className="relative drop-shadow-[0_18px_24px_rgba(110,124,96,0.28)]"
-            whileHover={{ y: -8 }}
-            transition={{ type: 'spring', stiffness: 200, damping: 18 }}
-          >
-            <div className="relative h-44 w-28 rounded-[2rem] bg-gradient-to-b from-white/70 to-white/20 backdrop-blur-sm">
-              <div className="absolute inset-x-5 bottom-5 top-16 rounded-2xl bg-white/35" />
-              <div className="absolute left-4 top-5 h-20 w-3 rounded-full bg-white/70" />
-              <div className="absolute left-1/2 top-1.5 h-6 w-10 -translate-x-1/2 rounded-t-lg bg-white/60" />
-            </div>
-          </motion.div>
+          <div
+            className="absolute -right-10 -top-10 h-36 w-36 rounded-full blur-2xl"
+            style={{ background: hueGlow[product.hue] }}
+          />
           <div className="droplet absolute bottom-6 left-6 h-9 w-7 bg-white/50" />
+          {/* real product bottle */}
+          <motion.img
+            src={product.image}
+            alt={product.name}
+            loading="lazy"
+            className="relative z-[1] h-[80%] w-auto object-contain drop-shadow-[0_22px_28px_rgba(110,124,96,0.32)]"
+            whileHover={{ y: -10, rotate: -1 }}
+            transition={{ type: 'spring', stiffness: 200, damping: 16 }}
+          />
         </div>
 
         {/* info */}

@@ -1,16 +1,20 @@
-export type Category = 'Cleanse' | 'Hydrate' | 'Treat' | 'Protect' | 'Sets'
+export type Category = 'Cleanse' | 'Hydrate' | 'Refresh' | 'Sets'
+
+export type Hue = 'sage' | 'honey' | 'mint' | 'blend'
 
 export interface Product {
   id: string
   slug: string
   name: string
+  /** the three-word product promise, e.g. "Hydrate. Nourish. Glow." */
+  promise: string
   tagline: string
   description: string
   price: number
   size: string
   category: Category
-  /* drives the 3D bottle + card gradient */
-  hue: 'lemon' | 'mint' | 'sprout' | 'vanilla' | 'petal'
+  hue: Hue
+  image: string
   bestSeller?: boolean
   isNew?: boolean
   ingredients: { name: string; note: string }[]
@@ -23,20 +27,22 @@ export interface Product {
 export const products: Product[] = [
   {
     id: 'p1',
-    slug: 'morning-melt-gel-cleanser',
-    name: 'Morning Melt',
-    tagline: 'Gentle gel cleanser',
+    slug: 'gentle-cream-cleanser',
+    name: 'Gentle Cream Cleanser',
+    promise: 'Cleanse. Refresh. Be you.',
+    tagline: 'Gentle today, glowing tomorrow.',
     description:
-      "A soft, fresh start. This featherlight gel melts away the day-before and morning dullness without that tight, squeaky feeling. Made for skin that's still figuring itself out.",
+      "A soft, creamy cleanse that lifts away the day without that tight, squeaky feeling. Made for skin that's still finding its way — calming, fresh, and kind from the very first wash.",
     price: 18,
-    size: '150ml',
+    size: '200ml',
     category: 'Cleanse',
-    hue: 'mint',
+    hue: 'sage',
+    image: '/products/cleanser.png',
     bestSeller: true,
     ingredients: [
       { name: 'Green Tea', note: 'calms and refreshes' },
       { name: 'Glycerin', note: 'keeps skin comfy, never tight' },
-      { name: 'Cucumber Water', note: 'a cool, clean finish' },
+      { name: 'Aloe Vera', note: 'a cool, gentle finish' },
     ],
     benefits: ['Soap-free & non-stripping', 'Calms first-time breakouts', 'Fragrance light'],
     howTo: 'Massage a coin-sized amount onto damp skin in soft circles. Rinse with lukewarm water. Morning and night.',
@@ -45,15 +51,17 @@ export const products: Product[] = [
   },
   {
     id: 'p2',
-    slug: 'quiet-glow-moisturiser',
-    name: 'Quiet Glow',
-    tagline: 'Everyday gel-cream',
+    slug: 'daily-balance-moisturiser',
+    name: 'Daily Balance Moisturiser',
+    promise: 'Hydrate. Nourish. Glow.',
+    tagline: 'Lightweight love for everyday confidence.',
     description:
-      'Lightweight hydration that disappears into skin and leaves a soft, lit-from-within finish. No grease, no heaviness — just a calm, dewy hello every morning.',
+      'Featherlight hydration that melts in and leaves a soft, lit-from-within finish. No grease, no heaviness — just a calm, balanced glow that lasts all day.',
     price: 24,
-    size: '50ml',
+    size: '75ml',
     category: 'Hydrate',
-    hue: 'lemon',
+    hue: 'honey',
+    image: '/products/moisturiser.png',
     bestSeller: true,
     ingredients: [
       { name: 'Squalane', note: 'lightweight, drama-free moisture' },
@@ -67,89 +75,49 @@ export const products: Product[] = [
   },
   {
     id: 'p3',
-    slug: 'clear-skies-spot-gel',
-    name: 'Clear Skies',
-    tagline: 'Gentle spot gel',
+    slug: 'glow-mist',
+    name: 'Glow Mist',
+    promise: 'Hydrate. Refresh. Shine on.',
+    tagline: 'Refresh. Revive. You’ve got this.',
     description:
-      "A kind little helper for those surprise spots. It calms redness overnight without harsh stinging or peeling — because confidence shouldn't come with a side of irritation.",
-    price: 16,
-    size: '15ml',
-    category: 'Treat',
-    hue: 'sprout',
-    isNew: true,
-    ingredients: [
-      { name: 'Salicylic Acid 1%', note: 'a soft nudge for clearer skin' },
-      { name: 'Centella', note: 'famous for calming redness' },
-      { name: 'Zinc', note: 'keeps things balanced' },
-    ],
-    benefits: ['Targets without over-drying', 'Invisible once dry', 'Gentle enough for daily use'],
-    howTo: 'Dab a thin layer directly onto spots after moisturiser. Let it absorb. Use once or twice a day.',
-    rating: 4.7,
-    reviews: 143,
-  },
-  {
-    id: 'p4',
-    slug: 'soft-shield-spf30',
-    name: 'Soft Shield',
-    tagline: 'Daily mineral SPF 30',
-    description:
-      'Your everyday invisible layer of protection. A weightless, no-white-cast finish that sits happily under or instead of makeup. The one step we hope becomes a habit.',
-    price: 22,
-    size: '50ml',
-    category: 'Protect',
-    hue: 'vanilla',
-    bestSeller: true,
-    ingredients: [
-      { name: 'Zinc Oxide', note: 'gentle mineral protection' },
-      { name: 'Aloe', note: 'fresh, cooling comfort' },
-      { name: 'Niacinamide', note: 'evens out the look of skin' },
-    ],
-    benefits: ['No white cast', 'Broad spectrum UVA/UVB', 'Sensitive-skin friendly'],
-    howTo: 'Apply two finger-lengths as the last step of your morning routine. Reapply through the day when outside.',
-    rating: 4.9,
-    reviews: 301,
-  },
-  {
-    id: 'p5',
-    slug: 'dewdrop-hydrating-toner',
-    name: 'Dewdrop',
-    tagline: 'Hydrating mist-toner',
-    description:
-      'A fresh spritz of calm you can use anytime — after cleansing, over makeup, or whenever skin needs a moment. Soft, hydrating, and quietly refreshing.',
+      'A fresh spritz of calm you can reach for anytime — after cleansing, over makeup, or whenever skin needs a moment. Soft, hydrating, and quietly confidence-boosting.',
     price: 19,
     size: '120ml',
-    category: 'Hydrate',
+    category: 'Refresh',
     hue: 'mint',
+    image: '/products/mist.png',
     isNew: true,
     ingredients: [
       { name: 'Hyaluronic Acid', note: 'a drink of water for skin' },
       { name: 'Chamomile', note: 'gentle, settling calm' },
-      { name: 'Watermelon Extract', note: 'fresh, juicy hydration' },
+      { name: 'Cucumber Water', note: 'fresh, cooling hydration' },
     ],
-    benefits: ['Use anytime, anywhere', 'Alcohol-free', 'Preps skin for moisturiser'],
-    howTo: 'Close eyes and mist over clean skin from 20cm away. Pat in lightly. Reapply whenever you like.',
+    benefits: ['Use anytime, anywhere', 'Alcohol-free', 'Sets makeup softly'],
+    howTo: 'Close eyes and mist over skin from 20cm away. Pat in lightly. Reach for it whenever you like.',
     rating: 4.8,
     reviews: 97,
   },
   {
-    id: 'p6',
-    slug: 'the-easy-three-set',
-    name: 'The Easy Three',
-    tagline: 'Starter routine set',
+    id: 'p4',
+    slug: 'the-glow-routine',
+    name: 'The Glow Routine',
+    promise: 'Cleanse. Hydrate. Refresh.',
+    tagline: 'Your whole 3-step routine, made simple.',
     description:
-      "Skincare, simplified. Cleanse, hydrate, protect — the only three steps you need to start. A gentle, foolproof routine that grows up with you, packed in a reusable pouch.",
+      'Skincare, simplified. Cleanse, hydrate, refresh — the only three steps you need, together in one set. A gentle, foolproof routine that grows up with you, with 15% off versus buying separately.',
     price: 56,
-    size: 'Cleanser + Glow + SPF',
+    size: 'Cleanser + Moisturiser + Mist',
     category: 'Sets',
-    hue: 'petal',
+    hue: 'blend',
+    image: '/products/trio.png',
     bestSeller: true,
     ingredients: [
-      { name: 'Morning Melt', note: 'step one · cleanse' },
-      { name: 'Quiet Glow', note: 'step two · hydrate' },
-      { name: 'Soft Shield', note: 'step three · protect' },
+      { name: 'Gentle Cream Cleanser', note: 'step one · cleanse' },
+      { name: 'Daily Balance Moisturiser', note: 'step two · hydrate' },
+      { name: 'Glow Mist', note: 'step three · refresh' },
     ],
     benefits: ['Save 15% vs. buying separately', 'Perfect first routine', 'Comes in a reusable pouch'],
-    howTo: 'Morning: cleanse, glow, then shield. Night: cleanse and glow. Three steps, every day. That’s it.',
+    howTo: 'Morning & night: cleanse, then moisturise. Mist anytime to refresh. Three steps, every day — that’s it.',
     rating: 5.0,
     reviews: 264,
   },
@@ -157,19 +125,17 @@ export const products: Product[] = [
 
 export const getProduct = (slug: string) => products.find((p) => p.slug === slug)
 
-export const hueGradient: Record<Product['hue'], string> = {
-  lemon: 'linear-gradient(160deg, #fff7cf 0%, #f4e58a 100%)',
-  mint: 'linear-gradient(160deg, #ddf3e6 0%, #9bd3ae 100%)',
-  sprout: 'linear-gradient(160deg, #eef6da 0%, #c7e2a0 100%)',
-  vanilla: 'linear-gradient(160deg, #fffdf2 0%, #f1e7c4 100%)',
-  petal: 'linear-gradient(160deg, #fdeede 0%, #f3d9c4 100%)',
+/* Soft brand-tinted backdrops that make the white bottles pop. */
+export const hueGradient: Record<Hue, string> = {
+  sage: 'linear-gradient(160deg, #eef3e2 0%, #c7d6ac 100%)',
+  honey: 'linear-gradient(160deg, #fdf5e0 0%, #f0dcb0 100%)',
+  mint: 'linear-gradient(160deg, #e4f2e8 0%, #b3ddc4 100%)',
+  blend: 'linear-gradient(150deg, #f4f0e2 0%, #dfe7cb 55%, #f2e6cf 100%)',
 }
 
-/* three.js bottle colors per hue */
-export const hueThree: Record<Product['hue'], { glass: string; cap: string; liquid: string }> = {
-  lemon: { glass: '#fbe6a3', cap: '#e9d27a', liquid: '#f6e07f' },
-  mint: { glass: '#bfe6cd', cap: '#94c9a6', liquid: '#a9dcbb' },
-  sprout: { glass: '#dcebb4', cap: '#b9d68f', liquid: '#cfe6a3' },
-  vanilla: { glass: '#f3ead0', cap: '#e2d2a8', liquid: '#efe3c2' },
-  petal: { glass: '#f6dcc8', cap: '#e9c3a6', liquid: '#f3d2bb' },
+export const hueGlow: Record<Hue, string> = {
+  sage: 'rgba(175, 190, 148, 0.55)',
+  honey: 'rgba(221, 172, 112, 0.4)',
+  mint: 'rgba(155, 211, 174, 0.5)',
+  blend: 'rgba(199, 214, 172, 0.5)',
 }

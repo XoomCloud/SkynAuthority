@@ -4,7 +4,7 @@ import { ProductCard } from '../components/ProductCard'
 import { products } from '../data/products'
 import type { Category } from '../data/products'
 
-const categories: ('All' | Category)[] = ['All', 'Cleanse', 'Hydrate', 'Treat', 'Protect', 'Sets']
+const categories: ('All' | Category)[] = ['All', 'Cleanse', 'Hydrate', 'Refresh', 'Sets']
 
 export function Shop() {
   const [active, setActive] = useState<'All' | Category>('All')

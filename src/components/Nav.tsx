@@ -34,7 +34,7 @@ export function Nav() {
           scrolled ? 'glass' : 'border border-transparent'
         }`}
       >
-        <Logo />
+        <Logo className="h-10" />
 
         <div className="hidden items-center gap-1 md:flex">
           {links.map((l) => (

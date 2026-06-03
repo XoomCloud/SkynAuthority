@@ -27,7 +27,7 @@ const values = [
 const faqs = [
   {
     q: 'Is this okay for my first ever routine?',
-    a: 'Absolutely — that’s exactly who we made it for. Start with The Easy Three set and you’ll have a complete, gentle routine in three steps.',
+    a: 'Absolutely — that’s exactly who we made it for. Start with The Glow Routine set and you’ll have a complete, gentle routine in three steps.',
   },
   {
     q: 'Will it work for sensitive skin?',

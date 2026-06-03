@@ -58,7 +58,7 @@ export function Footer() {
         {/* links */}
         <div className="mt-12 grid gap-10 sm:grid-cols-2 lg:grid-cols-4">
           <div className="space-y-4">
-            <Logo />
+            <Logo className="h-12" />
             <p className="max-w-xs text-sm text-ink-soft text-pretty">
               Gentle, confidence-building skincare made simple — for skin that's still
               finding its way.
