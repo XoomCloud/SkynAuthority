@@ -1,7 +1,7 @@
-import { Suspense, lazy, useState } from 'react'
+import { useRef, useState } from 'react'
 import { useParams, Link, Navigate } from 'react-router-dom'
-import { motion, AnimatePresence } from 'framer-motion'
-import { getProduct, products, hueGradient } from '../data/products'
+import { motion, AnimatePresence, useMotionValue, useSpring, useTransform } from 'framer-motion'
+import { getProduct, products, hueGradient, hueGlow } from '../data/products'
 import { useCart } from '../store/cart'
 import { ProductCard } from '../components/ProductCard'
 import { Reveal } from '../components/Reveal'
@@ -14,10 +14,6 @@ import {
   DropIcon,
 } from '../components/icons'
 
-const ProductScene = lazy(() =>
-  import('../three/Scenes').then((m) => ({ default: m.ProductScene })),
-)
-
 export function ProductDetail() {
   const { slug } = useParams()
   const product = slug ? getProduct(slug) : undefined
@@ -25,7 +21,27 @@ export function ProductDetail() {
   const [qty, setQty] = useState(1)
   const [open, setOpen] = useState<string | null>('ingredients')
 
+  // cursor tilt for the bottle viewer
+  const viewer = useRef<HTMLDivElement>(null)
+  const rx = useMotionValue(0)
+  const ry = useMotionValue(0)
+  const srx = useSpring(rx, { stiffness: 90, damping: 14 })
+  const sry = useSpring(ry, { stiffness: 90, damping: 14 })
+  const rotateX = useTransform(srx, (v) => v)
+  const rotateY = useTransform(sry, (v) => v)
+
   if (!product) return <Navigate to="/shop" replace />
+
+  const onMove = (e: React.MouseEvent) => {
+    const r = viewer.current?.getBoundingClientRect()
+    if (!r) return
+    ry.set(((e.clientX - r.left) / r.width - 0.5) * 18)
+    rx.set(((e.clientY - r.top) / r.height - 0.5) * -14)
+  }
+  const reset = () => {
+    rx.set(0)
+    ry.set(0)
+  }
 
   const related = products.filter((p) => p.id !== product.id).slice(0, 3)
 
@@ -38,7 +54,7 @@ export function ProductDetail() {
         <ul className="space-y-3">
           {product.ingredients.map((ing) => (
             <li key={ing.name} className="flex items-start gap-3">
-              <span className="mt-1.5 h-2 w-2 shrink-0 rounded-full bg-mint-deep" />
+              <span className="mt-1.5 h-2 w-2 shrink-0 rounded-full bg-sage-deep" />
               <span>
                 <span className="font-semibold text-ink">{ing.name}</span>
                 <span className="text-ink-soft"> — {ing.note}</span>
@@ -66,7 +82,7 @@ export function ProductDetail() {
       </div>
 
       <div className="grid gap-10 lg:grid-cols-2 lg:items-start">
-        {/* ───── 3D viewer ───── */}
+        {/* ───── viewer ───── */}
         <motion.div
           initial={{ opacity: 0, scale: 0.96 }}
           animate={{ opacity: 1, scale: 1 }}
@@ -74,16 +90,28 @@ export function ProductDetail() {
           className="card-skeu sticky top-28 overflow-hidden"
         >
           <div
-            className="relative aspect-square"
-            style={{ background: hueGradient[product.hue] }}
+            ref={viewer}
+            onMouseMove={onMove}
+            onMouseLeave={reset}
+            className="relative grid aspect-square place-items-center"
+            style={{ background: hueGradient[product.hue], perspective: 1000 }}
           >
-            <div className="absolute -right-10 -top-10 h-44 w-44 rounded-full bg-white/40 blur-3xl" />
-            <Suspense fallback={null}>
-              <ProductScene hue={product.hue} />
-            </Suspense>
-            <span className="chip absolute bottom-5 left-5">
-              ↻ Drag your cursor to admire
-            </span>
+            <div
+              className="absolute -right-12 -top-12 h-48 w-48 rounded-full blur-3xl"
+              style={{ background: hueGlow[product.hue] }}
+            />
+            <div className="droplet absolute bottom-10 left-10 h-12 w-9 bg-white/45" />
+            <div className="droplet absolute right-12 top-14 h-8 w-6 bg-white/40" />
+            <motion.img
+              src={product.image}
+              alt={product.name}
+              draggable={false}
+              style={{ rotateX, rotateY }}
+              className="relative z-[1] h-[78%] w-auto select-none object-contain drop-shadow-[0_34px_42px_rgba(110,124,96,0.34)]"
+              animate={{ y: [0, -12, 0] }}
+              transition={{ duration: 5.5, repeat: Infinity, ease: 'easeInOut' }}
+            />
+            <span className="chip absolute bottom-5 left-5">↻ Move your cursor to tilt</span>
             <span className="absolute right-5 top-5 rounded-full bg-white/70 px-3 py-1 text-xs font-semibold text-ink-soft">
               {product.size}
             </span>
@@ -96,24 +124,25 @@ export function ProductDetail() {
             <div className="flex flex-wrap items-center gap-2">
               <span className="eyebrow">{product.category}</span>
               {product.bestSeller && <span className="chip">★ Loved</span>}
-              {product.isNew && <span className="chip text-mint-deep">New</span>}
+              {product.isNew && <span className="chip text-sage-deep">New</span>}
             </div>
           </Reveal>
 
           <Reveal delay={0.05}>
-            <h1 className="mt-3 font-display text-[clamp(2.6rem,6vw,4.5rem)] leading-[0.95]">
+            <h1 className="mt-3 font-display text-[clamp(2.3rem,5vw,3.8rem)] leading-[0.98]">
               {product.name}
             </h1>
           </Reveal>
           <Reveal delay={0.08}>
-            <p className="mt-1 text-xl text-ink-soft">{product.tagline}</p>
+            <p className="mt-2 text-lg font-semibold text-sage-deep">{product.promise}</p>
+            <p className="mt-1 text-ink-soft">{product.tagline}</p>
           </Reveal>
 
           <Reveal delay={0.12}>
             <div className="mt-4 flex items-center gap-2">
               <div className="flex gap-0.5">
                 {[...Array(5)].map((_, i) => (
-                  <StarIcon key={i} size={16} className="text-butter" />
+                  <StarIcon key={i} size={16} className="text-honey" />
                 ))}
               </div>
               <span className="font-semibold">{product.rating}</span>
@@ -185,7 +214,7 @@ export function ProductDetail() {
                     aria-expanded={isOpen}
                   >
                     <span className="flex items-center gap-3 font-display text-xl">
-                      <Icon size={20} className="text-mint-deep" />
+                      <Icon size={20} className="text-sage-deep" />
                       {sec.title}
                     </span>
                     <motion.span animate={{ rotate: isOpen ? 45 : 0 }}>

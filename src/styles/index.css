@@ -17,7 +17,10 @@
   --color-mint: #c7e8d2;
   --color-mint-deep: #9bd3ae;
   --color-sprout: #e3f0c8;
-  --color-sage: #a9c79a;
+  --color-sage: #afbe94;
+  --color-sage-deep: #93a878;
+  --color-honey: #ddac70;
+  --color-honey-soft: #ecc98f;
   --color-beige: #ece3cf;
   --color-ink: #3a4438;
   --color-ink-soft: #5f6b5a;
@@ -150,16 +153,16 @@ h1, h2, h3, h4 {
 .btn-primary {
   padding: 0.95rem 1.9rem;
   color: var(--color-ink);
-  background: linear-gradient(165deg, var(--color-lemon) 0%, var(--color-butter) 100%);
-  box-shadow: -6px -6px 14px rgba(255, 255, 255, 0.75),
-    7px 9px 20px rgba(176, 165, 96, 0.4),
-    inset 0 1px 1px rgba(255, 255, 255, 0.6);
+  background: linear-gradient(165deg, var(--color-sage) 0%, var(--color-sage-deep) 100%);
+  box-shadow: -6px -6px 14px rgba(255, 255, 255, 0.7),
+    7px 9px 20px rgba(120, 140, 95, 0.42),
+    inset 0 1px 1px rgba(255, 255, 255, 0.5);
 }
 .btn-primary:hover {
   transform: translateY(-2px);
-  box-shadow: -6px -6px 16px rgba(255, 255, 255, 0.8),
-    9px 14px 30px rgba(176, 165, 96, 0.46),
-    inset 0 1px 1px rgba(255, 255, 255, 0.7);
+  box-shadow: -6px -6px 16px rgba(255, 255, 255, 0.75),
+    9px 14px 30px rgba(120, 140, 95, 0.48),
+    inset 0 1px 1px rgba(255, 255, 255, 0.6);
 }
 .btn-primary:active {
   transform: translateY(1px);

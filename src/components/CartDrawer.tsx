@@ -93,10 +93,14 @@ export function CartDrawer() {
                           className="flex gap-3 rounded-3xl bg-white/55 p-3"
                         >
                           <div
-                            className="grid h-20 w-20 shrink-0 place-items-center rounded-2xl"
+                            className="grid h-20 w-20 shrink-0 place-items-center overflow-hidden rounded-2xl"
                             style={{ background: hueGradient[l.product.hue] }}
                           >
-                            <div className="droplet h-10 w-7 bg-white/50" />
+                            <img
+                              src={l.product.image}
+                              alt={l.product.name}
+                              className="h-[88%] w-auto object-contain drop-shadow-[0_6px_8px_rgba(110,124,96,0.28)]"
+                            />
                           </div>
                           <div className="flex flex-1 flex-col">
                             <div className="flex items-start justify-between gap-2">
